@@ -1,0 +1,212 @@
+{%- doc -%}
+  Enhanced Add to Cart button block with full customization.
+  Displays price, guarantee text, and customizable styling.
+
+  @param {string} can_add_to_cart - Whether the product can be added to the cart
+{%- enddoc -%}
+
+{% liquid
+  assign class = 'add-to-cart-button enhanced-add-to-cart'
+  assign id = 'BuyButtons-ProductSubmitButton-' | append: block.id
+  assign product = closest.product
+  assign current_variant = product.selected_or_first_available_variant
+  
+  # Get dynamic price from bundle or variant
+  assign display_price = current_variant.price
+  assign display_compare_price = current_variant.compare_at_price
+%}
+
+<div
+  class="enhanced-add-to-cart-wrapper"
+  {{ block.shopify_attributes }}
+  style="
+    --atc-bg-color: {{ block.settings.button_bg_color }};
+    --atc-text-color: {{ block.settings.button_text_color }};
+    --atc-hover-bg: {{ block.settings.button_hover_bg }};
+    --atc-border-radius: {{ block.settings.border_radius }}px;
+    --atc-font-size: {{ block.settings.font_size }}px;
+    --atc-padding-v: {{ block.settings.padding_vertical }}px;
+    --atc-padding-h: {{ block.settings.padding_horizontal }}px;
+    --atc-price-color: {{ block.settings.price_color }};
+    --atc-compare-price-color: {{ block.settings.compare_price_color }};
+    --atc-guarantee-color: {{ block.settings.guarantee_text_color }};
+  "
+>
+  {% render 'add-to-cart-button-enhanced',
+    id: id,
+    class: class,
+    can_add_to_cart: can_add_to_cart,
+    product: product,
+    add_to_cart_text: block.settings.button_text,
+    show_price: block.settings.show_price,
+    show_compare_price: block.settings.show_compare_price,
+    show_guarantee: block.settings.show_guarantee,
+    guarantee_text: block.settings.guarantee_text,
+    separator: block.settings.separator,
+    display_price: display_price,
+    display_compare_price: display_compare_price
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Add to Cart",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "header",
+      "content": "Price Display"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Price on Button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_compare_price",
+      "label": "Show Compare at Price",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Separator",
+      "options": [
+        {
+          "value": "-",
+          "label": "Dash (-)"
+        },
+        {
+          "value": "|",
+          "label": "Pipe (|)"
+        },
+        {
+          "value": "•",
+          "label": "Bullet (•)"
+        },
+        {
+          "value": "/",
+          "label": "Slash (/)"
+        },
+        {
+          "value": "",
+          "label": "None"
+        }
+      ],
+      "default": "-"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare at Price Color",
+      "default": "#CCCCCC"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Show Guarantee Text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "30 Day Money-Back Guarantee"
+    },
+    {
+      "type": "color",
+      "id": "guarantee_text_color",
+      "label": "Guarantee Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background Color",
+      "default": "#2F7A5E"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Hover Background Color",
+      "default": "#235A46"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button Size & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font Size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical Padding",
+      "min": 8,
+      "max": 100,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal Padding",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}

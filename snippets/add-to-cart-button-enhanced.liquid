@@ -1,0 +1,290 @@
+{%- doc -%}
+  Enhanced "Add to cart" button with price display and guarantee text.
+  Features modern design with customizable colors and layout.
+
+  @param {boolean} can_add_to_cart - Whether the product can be added to the cart.
+  @param {string} add_to_cart_text - The text to display on the button.
+  @param {object} product - The product object to be added to the cart.
+  @param {boolean} show_price - Whether to show the price on the button.
+  @param {boolean} show_compare_price - Whether to show the compare at price on the button.
+  @param {boolean} show_guarantee - Whether to show the guarantee text.
+  @param {string} guarantee_text - The guarantee text to display.
+  @param {string} separator - The separator between button text and price.
+  @param {number} display_price - The price to display (in cents).
+  @param {number} display_compare_price - The compare at price to display (in cents).
+  @param {string} [class] - Additional CSS classes to apply to the button.
+  @param {string} [id] - The ID attribute for the button.
+{%- enddoc -%}
+
+{%- liquid
+  assign default_add_to_cart_text = 'Add to cart'
+  assign product_variant_media = product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 100
+  if product.selected_or_first_available_variant.featured_media.preview_image == blank
+    assign product_variant_media = product.featured_media.preview_image | image_url: width: 100
+  endif
+-%}
+
+<enhanced-add-to-cart-component
+  ref="addToCartButtonContainer"
+  data-product-variant-media="{{ product_variant_media }}"
+  data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
+  data-show-price="{{ show_price }}"
+  data-show-guarantee="{{ show_guarantee }}"
+  data-guarantee-text="{{ guarantee_text }}"
+  data-separator="{{ separator }}"
+>
+  <button
+    id="{{ id }}"
+    type="submit"
+    name="add"
+    ref="addToCartButton"
+    on:click="/handleClick"
+    class="button {{ class }}"
+    {% unless can_add_to_cart %}
+      disabled
+    {% endunless %}
+  >
+    <span class="enhanced-atc-content">
+      {%- comment -%} Main button text and price {%- endcomment -%}
+      <span class="enhanced-atc-main">
+        <span class="enhanced-atc-text">
+          {{- add_to_cart_text | default: default_add_to_cart_text -}}
+        </span>
+        {% if show_price %}
+          {% if separator != blank and separator != "" %}
+            <span class="enhanced-atc-separator">{{ separator }}</span>
+          {% endif %}
+          <span class="enhanced-atc-prices">
+            <span class="enhanced-atc-price" data-enhanced-atc-price>
+              {{- display_price | money -}}
+            </span>
+            {% if show_compare_price and display_compare_price and display_compare_price > display_price %}
+              <span class="enhanced-atc-compare-price" data-enhanced-atc-compare-price>
+                {{- display_compare_price | money -}}
+              </span>
+            {% endif %}
+          </span>
+        {% endif %}
+      </span>
+      
+      {%- comment -%} Guarantee text {%- endcomment -%}
+      {% if show_guarantee %}
+        {% if guarantee_text != blank and guarantee_text != "" %}
+          <span class="enhanced-atc-guarantee">
+            {{- guarantee_text -}}
+          </span>
+        {% endif %}
+      {% endif %}
+    </span>
+
+    {%- comment -%} Added state {%- endcomment -%}
+    <span
+      aria-hidden="true"
+      class="enhanced-atc-added"
+    >
+      <span class="svg-wrapper enhanced-atc-icon--added">
+        {{- 'icon-checkmark.svg' | inline_asset_content -}}
+      </span>
+      <span class="enhanced-atc-added-text">
+        {{- 'actions.added' | t | default: 'Added!' -}}
+      </span>
+    </span>
+  </button>
+</enhanced-add-to-cart-component>
+
+<script src="{{ 'enhanced-add-to-cart.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  .enhanced-add-to-cart-wrapper {
+    width: 100%;
+  }
+
+  .enhanced-add-to-cart-wrapper .enhanced-add-to-cart,
+  .enhanced-add-to-cart {
+    width: 100%;
+    background-color: var(--atc-bg-color, #2F7A5E);
+    color: var(--atc-text-color, #FFFFFF);
+    border: none;
+    border-radius: var(--atc-border-radius, 8px);
+    padding: var(--atc-padding-v, 16px) var(--atc-padding-h, 32px);
+    padding-inline: var(--atc-padding-h, 32px);
+    padding-block: var(--atc-padding-v, 16px);
+    font-size: var(--atc-font-size, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .enhanced-add-to-cart-wrapper .enhanced-add-to-cart:hover:not(:disabled),
+  .enhanced-add-to-cart:hover:not(:disabled) {
+    background-color: var(--atc-hover-bg, #235A46);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .enhanced-add-to-cart-wrapper .enhanced-add-to-cart:active:not(:disabled),
+  .enhanced-add-to-cart:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .enhanced-add-to-cart-wrapper .enhanced-add-to-cart:disabled,
+  .enhanced-add-to-cart:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .enhanced-atc-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    transition: opacity 0.3s ease;
+  }
+
+  .atc-added .enhanced-atc-content {
+    animation-name: enhanced-atc-slide-out;
+  }
+
+  .enhanced-atc-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--atc-font-size, 16px);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .enhanced-atc-text {
+    white-space: nowrap;
+  }
+
+  .enhanced-atc-separator {
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  .enhanced-atc-prices {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .enhanced-atc-compare-price {
+    color: var(--atc-compare-price-color, #CCCCCC);
+    font-weight: 400;
+    text-decoration: line-through;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+
+  .enhanced-atc-price {
+    color: var(--atc-price-color, #FFFFFF);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .enhanced-atc-guarantee {
+    font-size: calc(var(--atc-font-size, 16px) * 0.75);
+    color: var(--atc-guarantee-color, rgba(255, 255, 255, 0.9));
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: nowrap;
+  }
+
+  .enhanced-atc-added {
+    position: absolute;
+    inset: 0;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .atc-added .enhanced-atc-added {
+    animation-name: enhanced-atc-slide-in;
+  }
+
+  .enhanced-atc-icon--added {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  .enhanced-atc-icon--added svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .enhanced-atc-added-text {
+    font-weight: 700;
+    font-size: var(--atc-font-size, 16px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  @keyframes enhanced-atc-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes enhanced-atc-slide-out {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    to {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+  }
+
+  /* Responsive Design */
+  @media screen and (max-width: 749px) {
+    .enhanced-add-to-cart-wrapper .enhanced-add-to-cart,
+    .enhanced-add-to-cart {
+      padding: calc(var(--atc-padding-v, 16px) * 0.875) calc(var(--atc-padding-h, 32px) * 0.75);
+      padding-inline: calc(var(--atc-padding-h, 32px) * 0.75);
+      padding-block: calc(var(--atc-padding-v, 16px) * 0.875);
+      font-size: calc(var(--atc-font-size, 16px) * 0.875);
+    }
+
+    .enhanced-atc-main {
+      gap: 8px;
+    }
+
+    .enhanced-atc-guarantee {
+      font-size: calc(var(--atc-font-size, 16px) * 0.65);
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .enhanced-atc-main {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+{% endstylesheet %}

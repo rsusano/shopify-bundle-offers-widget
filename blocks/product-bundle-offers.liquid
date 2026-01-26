@@ -1,0 +1,1074 @@
+{%- comment -%}
+  Dynamic Product Bundle Offers Block
+  Works with actual product prices and updates the Add to Cart button
+  Supports free gift products for each bundle
+{%- endcomment -%}
+
+{%- liquid
+  assign product = product | default: closest.product
+  
+  unless product
+    echo '<div style="padding:20px;text-align:center;background:#f5f5f5;border-radius:8px;">Bundle offers will appear on product pages</div>'
+    break
+  endunless
+  
+  assign current_variant = product.selected_or_first_available_variant
+  unless current_variant
+    assign current_variant = product.variants.first
+  endunless
+  
+  unless current_variant
+    break
+  endunless
+  
+  assign base_price = current_variant.price | default: 0
+
+  # Calculate bundle prices based on settings
+  assign qty_1 = block.settings.bundle_1_quantity | default: 1
+  assign qty_2 = block.settings.bundle_2_quantity | default: 2
+  assign qty_3 = block.settings.bundle_3_quantity | default: 3
+
+  # Bundle 1 Free Gift (calculate first to include in compare price)
+  assign bundle_1_free_gift = block.settings.bundle_1_free_gift
+  assign bundle_1_free_gift_qty = block.settings.bundle_1_free_gift_quantity | default: 0
+  assign bundle_1_free_gift_value = 0
+  if bundle_1_free_gift != blank
+    assign bundle_1_free_gift_variant = bundle_1_free_gift.selected_or_first_available_variant
+    # Use base product price for free gifts instead of the gift's price (which might be $0)
+    assign bundle_1_free_gift_value = base_price | times: bundle_1_free_gift_qty
+  endif
+
+  # Bundle 1 pricing
+  assign bundle_1_discount = block.settings.bundle_1_discount | default: 0
+  assign bundle_1_base_total = base_price | times: qty_1
+  assign bundle_1_total_compare = bundle_1_base_total | plus: bundle_1_free_gift_value
+  if block.settings.bundle_1_price_type == 'fixed'
+    assign bundle_1_price = block.settings.bundle_1_fixed_price | times: 100
+  else
+    assign bundle_1_discount_amount = bundle_1_base_total | times: bundle_1_discount | divided_by: 100
+    assign bundle_1_price = bundle_1_base_total | minus: bundle_1_discount_amount
+  endif
+  assign bundle_1_savings = bundle_1_total_compare | minus: bundle_1_price
+  if bundle_1_total_compare > 0
+    assign bundle_1_savings_percent = bundle_1_savings | times: 100 | divided_by: bundle_1_total_compare
+  else
+    assign bundle_1_savings_percent = 0
+  endif
+
+  # Bundle 2 Free Gift (calculate first to include in compare price)
+  assign bundle_2_free_gift = block.settings.bundle_2_free_gift
+  assign bundle_2_free_gift_qty = block.settings.bundle_2_free_gift_quantity | default: 0
+  assign bundle_2_free_gift_value = 0
+  if bundle_2_free_gift != blank
+    assign bundle_2_free_gift_variant = bundle_2_free_gift.selected_or_first_available_variant
+    # Use base product price for free gifts instead of the gift's price (which might be $0)
+    assign bundle_2_free_gift_value = base_price | times: bundle_2_free_gift_qty
+  endif
+
+  # Bundle 2 pricing
+  assign bundle_2_discount = block.settings.bundle_2_discount | default: 0
+  assign bundle_2_base_total = base_price | times: qty_2
+  assign bundle_2_total_compare = bundle_2_base_total | plus: bundle_2_free_gift_value
+  if block.settings.bundle_2_price_type == 'fixed'
+    assign bundle_2_price = block.settings.bundle_2_fixed_price | times: 100
+  else
+    assign bundle_2_discount_amount = bundle_2_base_total | times: bundle_2_discount | divided_by: 100
+    assign bundle_2_price = bundle_2_base_total | minus: bundle_2_discount_amount
+  endif
+  assign bundle_2_savings = bundle_2_total_compare | minus: bundle_2_price
+  if bundle_2_total_compare > 0
+    assign bundle_2_savings_percent = bundle_2_savings | times: 100 | divided_by: bundle_2_total_compare
+  else
+    assign bundle_2_savings_percent = 0
+  endif
+
+  # Bundle 3 Free Gift (calculate first to include in compare price)
+  assign bundle_3_free_gift = block.settings.bundle_3_free_gift
+  assign bundle_3_free_gift_qty = block.settings.bundle_3_free_gift_quantity | default: 0
+  assign bundle_3_free_gift_value = 0
+  if bundle_3_free_gift != blank
+    assign bundle_3_free_gift_variant = bundle_3_free_gift.selected_or_first_available_variant
+    # Use base product price for free gifts instead of the gift's price (which might be $0)
+    assign bundle_3_free_gift_value = base_price | times: bundle_3_free_gift_qty
+  endif
+
+  # Bundle 3 pricing
+  assign bundle_3_discount = block.settings.bundle_3_discount | default: 0
+  assign bundle_3_base_total = base_price | times: qty_3
+  assign bundle_3_total_compare = bundle_3_base_total | plus: bundle_3_free_gift_value
+  if block.settings.bundle_3_price_type == 'fixed'
+    assign bundle_3_price = block.settings.bundle_3_fixed_price | times: 100
+  else
+    assign bundle_3_discount_amount = bundle_3_base_total | times: bundle_3_discount | divided_by: 100
+    assign bundle_3_price = bundle_3_base_total | minus: bundle_3_discount_amount
+  endif
+  assign bundle_3_savings = bundle_3_total_compare | minus: bundle_3_price
+  if bundle_3_total_compare > 0
+    assign bundle_3_savings_percent = bundle_3_savings | times: 100 | divided_by: bundle_3_total_compare
+  else
+    assign bundle_3_savings_percent = 0
+  endif
+-%}
+
+<bundle-offers-component
+  class="product-bundle-offers"
+  data-variant-id="{{ current_variant.id }}"
+  data-product-id="{{ product.id }}"
+  style="
+    --bundle-border-color: {{ block.settings.border_color }};
+    --bundle-selected-border: {{ block.settings.selected_border_color }};
+    --bundle-bg-color: {{ block.settings.background_color }};
+    --bundle-selected-bg: {{ block.settings.selected_background }};
+    --bundle-text-color: {{ block.settings.text_color }};
+    --bundle-price-color: {{ block.settings.price_color }};
+    --bundle-compare-color: {{ block.settings.compare_price_color }};
+    --bundle-free-badge-bg: {{ block.settings.free_badge_background }};
+    --bundle-free-badge-text: {{ block.settings.free_badge_text_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.bundle_1_enabled -%}
+    <label class="product-bundle-offers__item {% if block.settings.bundle_1_selected %}is-selected{% endif %}" data-bundle="1">
+      <input 
+        type="radio" 
+        name="bundle-{{ block.id }}" 
+        value="1"
+        data-quantity="{{ qty_1 }}"
+        data-price="{{ bundle_1_price }}"
+        data-compare-price="{{ bundle_1_total_compare }}"
+        data-variant-id="{{ current_variant.id }}"
+        {% if bundle_1_free_gift_variant %}
+          data-free-gift-variant-id="{{ bundle_1_free_gift_variant.id }}"
+          data-free-gift-quantity="{{ bundle_1_free_gift_qty }}"
+          data-free-gift-title="{{ bundle_1_free_gift.title | escape }}"
+        {% endif %}
+        {% if block.settings.bundle_1_selected %}checked{% endif %}
+      >
+      <div class="product-bundle-offers__images">
+        {%- if block.settings.show_product_image and product.featured_image -%}
+          <div class="product-bundle-offers__image-wrapper">
+            <img 
+              src="{{ product.featured_image | image_url: width: 120 }}" 
+              alt="{{ product.title }}"
+              class="product-bundle-offers__image"
+              width="60"
+              height="60"
+              loading="lazy"
+            >
+            <span class="product-bundle-offers__qty-badge">×{{ qty_1 }}</span>
+          </div>
+        {%- endif -%}
+        {%- if bundle_1_free_gift != blank and bundle_1_free_gift_qty > 0 and block.settings.show_free_gift_image -%}
+          <div class="product-bundle-offers__image-wrapper product-bundle-offers__image-wrapper--free">
+            {%- if bundle_1_free_gift.featured_image != blank -%}
+              <img 
+                src="{{ bundle_1_free_gift.featured_image | image_url: width: 120 }}" 
+                alt="{{ bundle_1_free_gift.title }}"
+                class="product-bundle-offers__image"
+                width="60"
+                height="60"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <span class="product-bundle-offers__qty-badge product-bundle-offers__qty-badge--free">×{{ bundle_1_free_gift_qty }}</span>
+            <span class="product-bundle-offers__free-label">FREE</span>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="product-bundle-offers__info">
+        <span class="product-bundle-offers__title">{{ block.settings.bundle_1_title | default: 'Buy One' }}</span>
+        <span class="product-bundle-offers__subtitle">
+          {%- if bundle_1_savings_percent > 0 -%}
+            You save {{ bundle_1_savings_percent | round }}%
+          {%- elsif block.settings.bundle_1_subtitle != blank -%}
+            {{ block.settings.bundle_1_subtitle }}
+          {%- endif -%}
+        </span>
+        {%- if bundle_1_free_gift != blank and bundle_1_free_gift_qty > 0 -%}
+          <span class="product-bundle-offers__free-gift-text">+ {{ bundle_1_free_gift_qty }} FREE {{ bundle_1_free_gift.title }}</span>
+        {%- endif -%}
+      </div>
+      <div class="product-bundle-offers__pricing">
+        <span class="product-bundle-offers__price">{{ bundle_1_price | money }}</span>
+        {%- if bundle_1_total_compare > bundle_1_price -%}
+          <span class="product-bundle-offers__compare">{{ bundle_1_total_compare | money }}</span>
+        {%- endif -%}
+      </div>
+      {%- if block.settings.bundle_1_badge != blank -%}
+        <span class="product-bundle-offers__badge" style="background-color: {{ block.settings.bundle_1_badge_color }};">{{ block.settings.bundle_1_badge }}</span>
+      {%- endif -%}
+    </label>
+  {%- endif -%}
+
+  {%- if block.settings.bundle_2_enabled -%}
+    <label class="product-bundle-offers__item {% if block.settings.bundle_2_selected %}is-selected{% endif %}" data-bundle="2">
+      <input 
+        type="radio" 
+        name="bundle-{{ block.id }}" 
+        value="2"
+        data-quantity="{{ qty_2 }}"
+        data-price="{{ bundle_2_price }}"
+        data-compare-price="{{ bundle_2_total_compare }}"
+        data-variant-id="{{ current_variant.id }}"
+        {% if bundle_2_free_gift_variant %}
+          data-free-gift-variant-id="{{ bundle_2_free_gift_variant.id }}"
+          data-free-gift-quantity="{{ bundle_2_free_gift_qty }}"
+          data-free-gift-title="{{ bundle_2_free_gift.title | escape }}"
+        {% endif %}
+        {% if block.settings.bundle_2_selected %}checked{% endif %}
+      >
+      <div class="product-bundle-offers__images">
+        {%- if block.settings.show_product_image and product.featured_image -%}
+          <div class="product-bundle-offers__image-wrapper">
+            <img 
+              src="{{ product.featured_image | image_url: width: 120 }}" 
+              alt="{{ product.title }}"
+              class="product-bundle-offers__image"
+              width="60"
+              height="60"
+              loading="lazy"
+            >
+            <span class="product-bundle-offers__qty-badge">×{{ qty_2 }}</span>
+          </div>
+        {%- endif -%}
+        {%- if bundle_2_free_gift != blank and bundle_2_free_gift_qty > 0 and block.settings.show_free_gift_image -%}
+          <div class="product-bundle-offers__image-wrapper product-bundle-offers__image-wrapper--free">
+            {%- if bundle_2_free_gift.featured_image != blank -%}
+              <img 
+                src="{{ bundle_2_free_gift.featured_image | image_url: width: 120 }}" 
+                alt="{{ bundle_2_free_gift.title }}"
+                class="product-bundle-offers__image"
+                width="60"
+                height="60"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <span class="product-bundle-offers__qty-badge product-bundle-offers__qty-badge--free">×{{ bundle_2_free_gift_qty }}</span>
+            <span class="product-bundle-offers__free-label">FREE</span>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="product-bundle-offers__info">
+        <span class="product-bundle-offers__title">{{ block.settings.bundle_2_title | default: 'Buy 2, Get 1 FREE' }}</span>
+        <span class="product-bundle-offers__subtitle">
+          {%- if bundle_2_savings_percent > 0 -%}
+            You save {{ bundle_2_savings_percent | round }}%
+          {%- elsif block.settings.bundle_2_subtitle != blank -%}
+            {{ block.settings.bundle_2_subtitle }}
+          {%- endif -%}
+        </span>
+        {%- if bundle_2_free_gift != blank and bundle_2_free_gift_qty > 0 -%}
+          <span class="product-bundle-offers__free-gift-text">+ {{ bundle_2_free_gift_qty }} FREE {{ bundle_2_free_gift.title }}</span>
+        {%- endif -%}
+      </div>
+      <div class="product-bundle-offers__pricing">
+        <span class="product-bundle-offers__price">{{ bundle_2_price | money }}</span>
+        {%- if bundle_2_total_compare > bundle_2_price -%}
+          <span class="product-bundle-offers__compare">{{ bundle_2_total_compare | money }}</span>
+        {%- endif -%}
+      </div>
+      {%- if block.settings.bundle_2_badge != blank -%}
+        <span class="product-bundle-offers__badge" style="background-color: {{ block.settings.bundle_2_badge_color }};">{{ block.settings.bundle_2_badge }}</span>
+      {%- endif -%}
+    </label>
+  {%- endif -%}
+
+  {%- if block.settings.bundle_3_enabled -%}
+    <label class="product-bundle-offers__item {% if block.settings.bundle_3_selected %}is-selected{% endif %}" data-bundle="3">
+      <input 
+        type="radio" 
+        name="bundle-{{ block.id }}" 
+        value="3"
+        data-quantity="{{ qty_3 }}"
+        data-price="{{ bundle_3_price }}"
+        data-compare-price="{{ bundle_3_total_compare }}"
+        data-variant-id="{{ current_variant.id }}"
+        {% if bundle_3_free_gift_variant %}
+          data-free-gift-variant-id="{{ bundle_3_free_gift_variant.id }}"
+          data-free-gift-quantity="{{ bundle_3_free_gift_qty }}"
+          data-free-gift-title="{{ bundle_3_free_gift.title | escape }}"
+        {% endif %}
+        {% if block.settings.bundle_3_selected %}checked{% endif %}
+      >
+      <div class="product-bundle-offers__images">
+        {%- if block.settings.show_product_image and product.featured_image -%}
+          <div class="product-bundle-offers__image-wrapper">
+            <img 
+              src="{{ product.featured_image | image_url: width: 120 }}" 
+              alt="{{ product.title }}"
+              class="product-bundle-offers__image"
+              width="60"
+              height="60"
+              loading="lazy"
+            >
+            <span class="product-bundle-offers__qty-badge">×{{ qty_3 }}</span>
+          </div>
+        {%- endif -%}
+        {%- if bundle_3_free_gift != blank and bundle_3_free_gift_qty > 0 and block.settings.show_free_gift_image -%}
+          <div class="product-bundle-offers__image-wrapper product-bundle-offers__image-wrapper--free">
+            {%- if bundle_3_free_gift.featured_image != blank -%}
+              <img 
+                src="{{ bundle_3_free_gift.featured_image | image_url: width: 120 }}" 
+                alt="{{ bundle_3_free_gift.title }}"
+                class="product-bundle-offers__image"
+                width="60"
+                height="60"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <span class="product-bundle-offers__qty-badge product-bundle-offers__qty-badge--free">×{{ bundle_3_free_gift_qty }}</span>
+            <span class="product-bundle-offers__free-label">FREE</span>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="product-bundle-offers__info">
+        <span class="product-bundle-offers__title">{{ block.settings.bundle_3_title | default: 'Buy 3, Get 2 FREE' }}</span>
+        <span class="product-bundle-offers__subtitle">
+          {%- if bundle_3_savings_percent > 0 -%}
+            You save {{ bundle_3_savings_percent | round }}%
+          {%- elsif block.settings.bundle_3_subtitle != blank -%}
+            {{ block.settings.bundle_3_subtitle }}
+          {%- endif -%}
+        </span>
+        {%- if bundle_3_free_gift != blank and bundle_3_free_gift_qty > 0 -%}
+          <span class="product-bundle-offers__free-gift-text">+ {{ bundle_3_free_gift_qty }} FREE {{ bundle_3_free_gift.title }}</span>
+        {%- endif -%}
+      </div>
+      <div class="product-bundle-offers__pricing">
+        <span class="product-bundle-offers__price">{{ bundle_3_price | money }}</span>
+        {%- if bundle_3_total_compare > bundle_3_price -%}
+          <span class="product-bundle-offers__compare">{{ bundle_3_total_compare | money }}</span>
+        {%- endif -%}
+      </div>
+      {%- if block.settings.bundle_3_badge != blank -%}
+        <span class="product-bundle-offers__badge" style="background-color: {{ block.settings.bundle_3_badge_color }};">{{ block.settings.bundle_3_badge }}</span>
+      {%- endif -%}
+    </label>
+  {%- endif -%}
+</bundle-offers-component>
+
+<script src="{{ 'bundle-offers.js' | asset_url }}" defer></script>
+
+<style>
+  .product-bundle-offers {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.gap }}px;
+    padding: {{ block.settings.padding_top }}px 0 {{ block.settings.padding_bottom }}px;
+  }
+
+  .product-bundle-offers__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: {{ block.settings.item_padding }}px;
+    border: 2px solid var(--bundle-border-color);
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: var(--bundle-bg-color);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .product-bundle-offers__item:hover {
+    border-color: var(--bundle-selected-border);
+  }
+
+  .product-bundle-offers__item.is-selected,
+  .product-bundle-offers__item:has(input:checked) {
+    border-color: var(--bundle-selected-border);
+    background-color: var(--bundle-selected-bg);
+  }
+
+  .product-bundle-offers__item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .product-bundle-offers__images {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .product-bundle-offers__image-wrapper {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .product-bundle-offers__image-wrapper--free {
+    border: 2px dashed var(--bundle-free-badge-bg, #00A67E);
+    border-radius: 8px;
+    padding: 2px;
+  }
+
+  .product-bundle-offers__image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .product-bundle-offers__qty-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: var(--bundle-selected-border, #006241);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    line-height: 1;
+  }
+
+  .product-bundle-offers__qty-badge--free {
+    background: var(--bundle-free-badge-bg, #00A67E);
+  }
+
+  .product-bundle-offers__free-label {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bundle-free-badge-bg, #00A67E);
+    color: var(--bundle-free-badge-text, white);
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .product-bundle-offers__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .product-bundle-offers__title {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    color: var(--bundle-text-color);
+  }
+
+  .product-bundle-offers__subtitle {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: var(--bundle-text-color);
+    opacity: 0.7;
+  }
+
+  .product-bundle-offers__free-gift-text {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: var(--bundle-free-badge-bg, #00A67E);
+    font-weight: 600;
+  }
+
+  .product-bundle-offers__pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .product-bundle-offers__price {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 700;
+    color: var(--bundle-price-color);
+  }
+
+  .product-bundle-offers__compare {
+    font-size: {{ block.settings.compare_size }}px;
+    color: var(--bundle-compare-color);
+    text-decoration: line-through;
+  }
+
+  .product-bundle-offers__badge {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background-color: #006241;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-bundle-offers__item {
+      padding: {{ block.settings.item_padding_mobile }}px;
+      flex-wrap: wrap;
+    }
+
+    .product-bundle-offers__images {
+      gap: 2px;
+    }
+
+    .product-bundle-offers__image {
+      width: 45px;
+      height: 45px;
+    }
+
+    .product-bundle-offers__title {
+      font-size: {{ block.settings.title_size_mobile }}px;
+    }
+
+    .product-bundle-offers__subtitle,
+    .product-bundle-offers__free-gift-text {
+      font-size: {{ block.settings.subtitle_size_mobile }}px;
+    }
+
+    .product-bundle-offers__price {
+      font-size: {{ block.settings.price_size_mobile }}px;
+    }
+
+    .product-bundle-offers__compare {
+      font-size: {{ block.settings.compare_size_mobile }}px;
+    }
+
+    .product-bundle-offers__free-label {
+      font-size: 7px;
+      padding: 1px 4px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Bundle Offers",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_image",
+      "label": "Show Product Image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_gift_image",
+      "label": "Show Free Gift Image",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "━━━ Bundle 1 ━━━"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_1_enabled",
+      "label": "Enable Bundle 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_1_title",
+      "label": "Title",
+      "default": "Buy One"
+    },
+    {
+      "type": "text",
+      "id": "bundle_1_subtitle",
+      "label": "Subtitle (if no discount)",
+      "default": "Standard price"
+    },
+    {
+      "type": "range",
+      "id": "bundle_1_quantity",
+      "label": "Quantity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "bundle_1_price_type",
+      "label": "Price Type",
+      "options": [
+        { "value": "discount", "label": "Discount Percentage" },
+        { "value": "fixed", "label": "Fixed Price" }
+      ],
+      "default": "discount"
+    },
+    {
+      "type": "range",
+      "id": "bundle_1_discount",
+      "label": "Discount Percentage",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 0,
+      "unit": "%",
+      "info": "Used when Price Type is 'Discount Percentage'"
+    },
+    {
+      "type": "number",
+      "id": "bundle_1_fixed_price",
+      "label": "Fixed Price",
+      "default": 0,
+      "info": "Used when Price Type is 'Fixed Price'. Enter price without currency symbol."
+    },
+    {
+      "type": "text",
+      "id": "bundle_1_badge",
+      "label": "Badge Text"
+    },
+    {
+      "type": "color",
+      "id": "bundle_1_badge_color",
+      "label": "Badge Color",
+      "default": "#006241"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_1_selected",
+      "label": "Selected by Default",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Bundle 1 - Free Gift"
+    },
+    {
+      "type": "product",
+      "id": "bundle_1_free_gift",
+      "label": "Free Gift Product",
+      "info": "Select a product to add as a free gift with this bundle"
+    },
+    {
+      "type": "range",
+      "id": "bundle_1_free_gift_quantity",
+      "label": "Free Gift Quantity",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0,
+      "info": "Number of free gift items to add"
+    },
+    {
+      "type": "header",
+      "content": "━━━ Bundle 2 ━━━"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_2_enabled",
+      "label": "Enable Bundle 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_title",
+      "label": "Title",
+      "default": "Buy 2, Get 1 FREE"
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_subtitle",
+      "label": "Subtitle (if no discount)"
+    },
+    {
+      "type": "range",
+      "id": "bundle_2_quantity",
+      "label": "Quantity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "bundle_2_price_type",
+      "label": "Price Type",
+      "options": [
+        { "value": "discount", "label": "Discount Percentage" },
+        { "value": "fixed", "label": "Fixed Price" }
+      ],
+      "default": "discount"
+    },
+    {
+      "type": "range",
+      "id": "bundle_2_discount",
+      "label": "Discount Percentage",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 35,
+      "unit": "%",
+      "info": "Used when Price Type is 'Discount Percentage'"
+    },
+    {
+      "type": "number",
+      "id": "bundle_2_fixed_price",
+      "label": "Fixed Price",
+      "default": 0,
+      "info": "Used when Price Type is 'Fixed Price'. Enter price without currency symbol."
+    },
+    {
+      "type": "text",
+      "id": "bundle_2_badge",
+      "label": "Badge Text",
+      "default": "Most Popular"
+    },
+    {
+      "type": "color",
+      "id": "bundle_2_badge_color",
+      "label": "Badge Color",
+      "default": "#006241"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_2_selected",
+      "label": "Selected by Default",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Bundle 2 - Free Gift"
+    },
+    {
+      "type": "product",
+      "id": "bundle_2_free_gift",
+      "label": "Free Gift Product",
+      "info": "Select a product to add as a free gift with this bundle"
+    },
+    {
+      "type": "range",
+      "id": "bundle_2_free_gift_quantity",
+      "label": "Free Gift Quantity",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 1,
+      "info": "Number of free gift items to add"
+    },
+    {
+      "type": "header",
+      "content": "━━━ Bundle 3 ━━━"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_3_enabled",
+      "label": "Enable Bundle 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_title",
+      "label": "Title",
+      "default": "Buy 3, Get 2 FREE"
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_subtitle",
+      "label": "Subtitle (if no discount)"
+    },
+    {
+      "type": "range",
+      "id": "bundle_3_quantity",
+      "label": "Quantity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "bundle_3_price_type",
+      "label": "Price Type",
+      "options": [
+        { "value": "discount", "label": "Discount Percentage" },
+        { "value": "fixed", "label": "Fixed Price" }
+      ],
+      "default": "discount"
+    },
+    {
+      "type": "range",
+      "id": "bundle_3_discount",
+      "label": "Discount Percentage",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 40,
+      "unit": "%",
+      "info": "Used when Price Type is 'Discount Percentage'"
+    },
+    {
+      "type": "number",
+      "id": "bundle_3_fixed_price",
+      "label": "Fixed Price",
+      "default": 0,
+      "info": "Used when Price Type is 'Fixed Price'. Enter price without currency symbol."
+    },
+    {
+      "type": "text",
+      "id": "bundle_3_badge",
+      "label": "Badge Text",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "color",
+      "id": "bundle_3_badge_color",
+      "label": "Badge Color",
+      "default": "#00A67E"
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_3_selected",
+      "label": "Selected by Default",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Bundle 3 - Free Gift"
+    },
+    {
+      "type": "product",
+      "id": "bundle_3_free_gift",
+      "label": "Free Gift Product",
+      "info": "Select a product to add as a free gift with this bundle"
+    },
+    {
+      "type": "range",
+      "id": "bundle_3_free_gift_quantity",
+      "label": "Free Gift Quantity",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 2,
+      "info": "Number of free gift items to add"
+    },
+    {
+      "type": "header",
+      "content": "━━━ Desktop Appearance ━━━"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price Size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "compare_size",
+      "label": "Compare Price Size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "label": "Item Padding",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "━━━ Mobile Appearance ━━━"
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title Size (Mobile)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "label": "Subtitle Size (Mobile)",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "price_size_mobile",
+      "label": "Price Size (Mobile)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "compare_size_mobile",
+      "label": "Compare Price Size (Mobile)",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "item_padding_mobile",
+      "label": "Item Padding (Mobile)",
+      "min": 6,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "━━━ Colors ━━━"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#E0E0E0"
+    },
+    {
+      "type": "color",
+      "id": "selected_border_color",
+      "label": "Selected Border Color",
+      "default": "#006241"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "selected_background",
+      "label": "Selected Background",
+      "default": "#F0FDF4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare Price Color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "free_badge_background",
+      "label": "Free Badge Background",
+      "default": "#00A67E"
+    },
+    {
+      "type": "color",
+      "id": "free_badge_text_color",
+      "label": "Free Badge Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "━━━ Layout ━━━"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap Between Offers",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Offers",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
