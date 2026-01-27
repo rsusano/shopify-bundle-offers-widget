@@ -37,7 +37,12 @@
 ### Complete Flow Demo
 > **🎥 Video Placeholder**: Record a short demo video showing the complete user experience
 
-![Demo Video](https://raw.githubusercontent.com/rsusano/shopify-bundle-offers-widget/582e4cbbadcc03b6d043ad1fcc073efdbebe5f62/b4f9efa7-24da-44df-a70e-12331cba6b3f%20(1).webm)
+![Demo Video]<video
+  src="https://raw.githubusercontent.com/rsusano/shopify-bundle-offers-widget/582e4cbbadcc03b6d043ad1fcc073efdbebe5f62/b4f9efa7-24da-44df-a70e-12331cba6b3f%20(1).webm"
+  controls
+  width="700">
+</video>
+
 *Record this: User selecting different bundles → price updates → adding to cart → cart drawer opens with bundle items*
 
 ---
