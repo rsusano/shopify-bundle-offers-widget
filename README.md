@@ -21,7 +21,7 @@
 ### Enhanced Add-to-Cart Button
 > **📷 Screenshot Placeholder**: Add a screenshot of the enhanced button with price and guarantee text
 
-![Enhanced Button Preview](./docs/images/enhanced-button-preview.png)
+![Enhanced Button Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/239a3226b1b04c4d5808d6fbe364c5eb1bdca260/Add-to-cart-enhanced.png)
 *Capture this: Close-up of the add-to-cart button showing sale price, crossed-out compare price, and guarantee text*
 
 ---
