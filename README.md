@@ -29,7 +29,7 @@
 ### Mobile Responsive Design
 > **📷 Screenshot Placeholder**: Add mobile view screenshots
 
-![Mobile View](./docs/images/mobile-view.png)
+![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/446464e5314019e87bfdeb5428a9b2ce6911e231/mobile-layout.png)
 *Capture this: Side-by-side mobile view showing bundle widget and button on a phone screen*
 
 ---
