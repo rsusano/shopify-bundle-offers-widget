@@ -13,7 +13,7 @@
 ### Bundle Widget in Action
 > **📷 Screenshot Placeholder**: Add a screenshot of your bundle widget showing all three bundle options with pricing
 
-![Bundle Widget Preview](./docs/images/bundle-widget-preview.png)
+![Bundle Widget Preview]([./docs/images/bundle-widget-preview.png](https://github.com/rsusano/shopify-bundle-offers-widget/blob/c7d7976ebfc02fcdc9e61ea9a1bbcfd98df3e5ce/Bundle%20widget%20Desktop.png))
 *Capture this: Product page showing all 3 bundle options with radio buttons, pricing, and free gift indicators*
 
 ---
