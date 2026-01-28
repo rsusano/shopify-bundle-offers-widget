@@ -37,7 +37,7 @@
 ### Complete Flow Demo
 > **🎥 Watch the bundle widget in action!**
 
-**[📺 Click Here to Watch Demo Video](https://github.com/rsusano/shopify-bundle-offers-widget/raw/main/b4f9efa7-24da-44df-a70e-12331cba6b3f%20(1).webm)** ⬅️ Click to download & play
+**[📺 Click Here to Watch Demo Video](https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af7446a)** ⬅️ Click to download & play
 
 *Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
 
