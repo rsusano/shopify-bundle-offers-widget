@@ -14,7 +14,7 @@
 > **📷 Screenshot Placeholder**: Add a screenshot of your bundle widget showing all three bundle options with pricing
 
 ![Bundle Widget Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Bundle%20widget%20Desktop.png)
-*Capture this: Product page showing all 3 bundle options with radio buttons, pricing, and free gift indicators*
+
 
 ---
 
@@ -22,7 +22,7 @@
 > **📷 Screenshot Placeholder**: Add a screenshot of the enhanced button with price and guarantee text
 
 ![Enhanced Button Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Add-to-cart-enhanced%20(1).png)
-*Capture this: Close-up of the add-to-cart button showing sale price, crossed-out compare price, and guarantee text*
+
 
 ---
 
@@ -30,7 +30,7 @@
 > **📷 Screenshot Placeholder**: Add mobile view screenshots
 
 ![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/mobile-layout.png)
-*Capture this: Side-by-side mobile view showing bundle widget and button on a phone screen*
+
 
 ---
 
@@ -39,8 +39,6 @@
 **🎥 Watch the bundle widget in action!**
 
 ![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/b857bc002a10b03b188ad4d62cfbd185fc14b2d2/video-widget-demo-ezgif.com-video-to-gif-converter.gif)
-
-*Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
 
 ---
 
@@ -585,17 +583,13 @@ This widget demonstrates:
 - ✅ Performance-optimized code
 - ✅ Comprehensive documentation
 
-**Perfect for showcasing to potential clients!**
-
 ---
 
 ## 📞 Let's Connect
 
 Impressed by this work? Let's build something amazing together!
 
-- **Portfolio**: [Your Portfolio URL]
-- **LinkedIn**: [Your LinkedIn]
-- **Email**: [Your Email]
+- **Email**: rsusano123s@gmail.com
 
 ---
 
