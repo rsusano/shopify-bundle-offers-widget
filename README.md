@@ -13,7 +13,7 @@
 ### Bundle Widget in Action
 > **📷 Screenshot Placeholder**: Add a screenshot of your bundle widget showing all three bundle options with pricing
 
-![Bundle Widget Preview](./docs/images/bundle-widget-preview.png)
+![Bundle Widget Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Bundle%20widget%20Desktop.png)
 *Capture this: Product page showing all 3 bundle options with radio buttons, pricing, and free gift indicators*
 
 ---
@@ -21,7 +21,7 @@
 ### Enhanced Add-to-Cart Button
 > **📷 Screenshot Placeholder**: Add a screenshot of the enhanced button with price and guarantee text
 
-![Enhanced Button Preview](./docs/images/enhanced-button-preview.png)
+![Enhanced Button Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Add-to-cart-enhanced%20(1).png)
 *Capture this: Close-up of the add-to-cart button showing sale price, crossed-out compare price, and guarantee text*
 
 ---
@@ -29,7 +29,7 @@
 ### Mobile Responsive Design
 > **📷 Screenshot Placeholder**: Add mobile view screenshots
 
-![Mobile View](./docs/images/mobile-view.png)
+![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/mobile-layout.png)
 *Capture this: Side-by-side mobile view showing bundle widget and button on a phone screen*
 
 ---
