@@ -11,26 +11,23 @@
 ## 📸 Visual Preview
 
 ### Bundle Widget in Action
-> **📷 Screenshot Placeholder**: Add a screenshot of your bundle widget showing all three bundle options with pricing
 
-![Bundle Widget Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Bundle%20widget%20Desktop.png)
-
+![Bundle Widget Preview](./docs/images/Bundle%20widget%20Desktop.png)
+*Product page showing all 3 bundle options with radio buttons, pricing, and free gift indicators*
 
 ---
 
 ### Enhanced Add-to-Cart Button
-> **📷 Screenshot Placeholder**: Add a screenshot of the enhanced button with price and guarantee text
 
-![Enhanced Button Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Add-to-cart-enhanced%20(1).png)
-
+![Enhanced Button Preview](./docs/images/Add-to-cart-enhanced%20(1).png)
+*Close-up of the add-to-cart button showing sale price, crossed-out compare price, and guarantee text*
 
 ---
 
 ### Mobile Responsive Design
-> **📷 Screenshot Placeholder**: Add mobile view screenshots
 
-![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/mobile-layout.png)
-
+![Mobile View](./docs/images/mobile-layout.png)
+*Mobile view showing bundle widget and button optimized for phone screens*
 
 ---
 
@@ -38,7 +35,13 @@
 
 **🎥 Watch the bundle widget in action!**
 
-![Demo](https://github.com/rsusano/shopify-bundle-offers-widget/blob/ca92c2734532df8d50bbef66f447aec356aa9ac2/video-widget-demo.gif)
+https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af746ca
+
+**Alternative: Animated GIF Demo**
+
+![Widget Demo](./docs/gifs/video-widget-demo.gif)
+
+*Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
 
 ---
 
@@ -583,13 +586,17 @@ This widget demonstrates:
 - ✅ Performance-optimized code
 - ✅ Comprehensive documentation
 
+**Perfect for showcasing to potential clients!**
+
 ---
 
 ## 📞 Let's Connect
 
 Impressed by this work? Let's build something amazing together!
 
-- **Email**: rsusano123s@gmail.com
+- **Portfolio**: [Your Portfolio URL]
+- **LinkedIn**: [Your LinkedIn]
+- **Email**: [Your Email]
 
 ---
 
