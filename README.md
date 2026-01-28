@@ -38,7 +38,7 @@
 
 **🎥 Watch the bundle widget in action!**
 
-https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af746ca
+(https://github.com/rsusano/shopify-bundle-offers-widget/blob/029d3aeb4f8eb033db1f262b53909581c1d28a8a/widget-demo.crdownload)
 
 *Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
 
