@@ -13,7 +13,7 @@
 ### Bundle Widget in Action
 > **📷 Screenshot Placeholder**: Add a screenshot of your bundle widget showing all three bundle options with pricing
 
-![Bundle Widget Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/c7d7976ebfc02fcdc9e61ea9a1bbcfd98df3e5ce/Bundle%20widget%20Desktop.png)
+![Bundle Widget Preview](./docs/images/bundle-widget-preview.png)
 *Capture this: Product page showing all 3 bundle options with radio buttons, pricing, and free gift indicators*
 
 ---
@@ -21,7 +21,7 @@
 ### Enhanced Add-to-Cart Button
 > **📷 Screenshot Placeholder**: Add a screenshot of the enhanced button with price and guarantee text
 
-![Enhanced Button Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/7e043f75c229e324c9bef3ad3466bd8ad332593e/Add-to-cart-enhanced%20(1).png)
+![Enhanced Button Preview](./docs/images/enhanced-button-preview.png)
 *Capture this: Close-up of the add-to-cart button showing sale price, crossed-out compare price, and guarantee text*
 
 ---
@@ -29,21 +29,19 @@
 ### Mobile Responsive Design
 > **📷 Screenshot Placeholder**: Add mobile view screenshots
 
-![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/446464e5314019e87bfdeb5428a9b2ce6911e231/mobile-layout.png)
+![Mobile View](./docs/images/mobile-view.png)
 *Capture this: Side-by-side mobile view showing bundle widget and button on a phone screen*
 
 ---
 
 ### Complete Flow Demo
-> **🎥 Video Placeholder**: Record a short demo video showing the complete user experience
+> **🎥 Watch the bundle widget in action!**
 
-![Demo Video]<video
-  src="https://raw.githubusercontent.com/rsusano/shopify-bundle-offers-widget/582e4cbbadcc03b6d043ad1fcc073efdbebe5f62/b4f9efa7-24da-44df-a70e-12331cba6b3f%20(1).webm"
-  controls
-  width="700">
+<video src="https://github.com/rsusano/shopify-bundle-offers-widget/raw/main/b4f9efa7-24da-44df-a70e-12331cba6b3f%20(1).webm" controls width="100%">
+  Your browser does not support the video tag.
 </video>
 
-*Record this: User selecting different bundles → price updates → adding to cart → cart drawer opens with bundle items*
+*Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
 
 ---
 
