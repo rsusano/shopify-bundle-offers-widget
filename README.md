@@ -35,13 +35,12 @@
 ---
 
 ### Complete Flow Demo
-> **🎥 Watch the bundle widget in action!**
 
-**[📺 Click Here to Watch Demo Video](https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af7446a)** ⬅️ Click to download & play
+**🎥 Watch the bundle widget in action!**
+
+https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af746ca
 
 *Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
-
-> **Note:** To embed video directly in README (auto-play), upload your video via GitHub Issues and use the generated URL.
 
 ---
 
