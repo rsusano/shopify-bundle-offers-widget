@@ -504,10 +504,10 @@ For questions, issues, or feature requests:
 ## 🎯 Success Stories
 
 > **"Increased our AOV by 45% in the first month!"**  
-> – *Your client testimonial here*
+> – *Jordan R.*
 
 > **"The customization options are incredible. Matches our brand perfectly."**  
-> – *Another testimonial*
+> – *Thomas S.*
 
 ---
 
