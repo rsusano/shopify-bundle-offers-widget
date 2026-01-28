@@ -26,7 +26,7 @@
 
 ### Mobile Responsive Design
 
-![Mobile View](./docs/images/mobile-layout.png)
+![Mobile View](./docs/images/mobile-layout.png)<br>
 *Mobile view showing bundle widget and button optimized for phone screens*
 
 ---
@@ -39,8 +39,7 @@ https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af746ca
 
 **Alternative: Animated GIF Demo**
 
-![Widget Demo](./docs/gifs/video-widget-demo.gif)
-
+![Widget Demo](./docs/gifs/video-widget-demo.gif)<br>
 *Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
 
 ---
