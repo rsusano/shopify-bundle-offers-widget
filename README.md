@@ -38,7 +38,7 @@
 
 **🎥 Watch the bundle widget in action!**
 
-![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/b857bc002a10b03b188ad4d62cfbd185fc14b2d2/video-widget-demo-ezgif.com-video-to-gif-converter.gif)
+![Demo](https://github.com/rsusano/shopify-bundle-offers-widget/blob/ca92c2734532df8d50bbef66f447aec356aa9ac2/video-widget-demo.gif)
 
 ---
 
