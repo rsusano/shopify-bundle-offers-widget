@@ -497,7 +497,7 @@ For questions, issues, or feature requests:
 1. Check the [docs/](./docs/) folder
 2. Review the [TROUBLESHOOTING](./docs/TROUBLESHOOTING.md) guide
 3. Open an issue on GitHub
-4. Contact: [Your Contact Info]
+4. Contact: rsusano123s@gmail.com
 
 ---
 
