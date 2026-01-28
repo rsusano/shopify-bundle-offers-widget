@@ -591,9 +591,7 @@ This widget demonstrates:
 
 Impressed by this work? Let's build something amazing together!
 
-- **Portfolio**: [Your Portfolio URL]
-- **LinkedIn**: [Your LinkedIn]
-- **Email**: [Your Email]
+- **Email**: rsusano123s@gmail.com
 
 ---
 
