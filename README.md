@@ -13,24 +13,24 @@
 ### Bundle Widget in Action
 > **📷 Screenshot Placeholder**: Add a screenshot of your bundle widget showing all three bundle options with pricing
 
-![Bundle Widget Preview](./docs/images/bundle-widget-preview.png)
-*Capture this: Product page showing all 3 bundle options with radio buttons, pricing, and free gift indicators*
+![Bundle Widget Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Bundle%20widget%20Desktop.png)
+
 
 ---
 
 ### Enhanced Add-to-Cart Button
 > **📷 Screenshot Placeholder**: Add a screenshot of the enhanced button with price and guarantee text
 
-![Enhanced Button Preview](./docs/images/enhanced-button-preview.png)
-*Capture this: Close-up of the add-to-cart button showing sale price, crossed-out compare price, and guarantee text*
+![Enhanced Button Preview](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/Add-to-cart-enhanced%20(1).png)
+
 
 ---
 
 ### Mobile Responsive Design
 > **📷 Screenshot Placeholder**: Add mobile view screenshots
 
-![Mobile View](./docs/images/mobile-view.png)
-*Capture this: Side-by-side mobile view showing bundle widget and button on a phone screen*
+![Mobile View](https://github.com/rsusano/shopify-bundle-offers-widget/blob/5616d3ae90d65737416c245b36f168cc91755a8e/mobile-layout.png)
+
 
 ---
 
@@ -38,9 +38,7 @@
 
 **🎥 Watch the bundle widget in action!**
 
-https://github.com/user-attachments/assets/5fe89054-53f0-4fe2-ad34-a8d41af746ca
-
-*Demo: User selects bundle → Price updates → Adds to cart → Bundle items appear in cart drawer*
+![Demo](https://github.com/rsusano/shopify-bundle-offers-widget/blob/ca92c2734532df8d50bbef66f447aec356aa9ac2/video-widget-demo.gif)
 
 ---
 
@@ -585,17 +583,13 @@ This widget demonstrates:
 - ✅ Performance-optimized code
 - ✅ Comprehensive documentation
 
-**Perfect for showcasing to potential clients!**
-
 ---
 
 ## 📞 Let's Connect
 
 Impressed by this work? Let's build something amazing together!
 
-- **Portfolio**: [Your Portfolio URL]
-- **LinkedIn**: [Your LinkedIn]
-- **Email**: [Your Email]
+- **Email**: rsusano123s@gmail.com
 
 ---
 
